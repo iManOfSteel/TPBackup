@@ -1,7 +1,12 @@
 #!/bin/bash
 folderName=$1
-extension=$2
-archiveName=$3
-mkdir $folderName 2> /dev/null
-find ~ -name *.$extension -exec cp -prv '{}' $folderName/ ';' 2> /dev/null > /dev/null
+archiveName=$2
+mkdir $folderName &> /dev/null
+for extension in "$@"
+do
+	find ~ -name *.$extension -exec cp -prv '{}' $folderName/ ';' &> /dev/null
+done
+cd $folderName
+cd ..
+tar -zcf $archiveName.tar.gz $folderName &> /dev/null
 echo done
